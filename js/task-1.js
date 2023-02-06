@@ -1,5 +1,3 @@
-'use strict';
-
 document.addEventListener('keydown', switchInput);
 
 function switchInput(e) {
