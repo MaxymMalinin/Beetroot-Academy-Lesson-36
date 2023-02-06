@@ -3,16 +3,11 @@
 document.addEventListener('keydown', switchInput);
 
 function switchInput(e) {
-  const currentEl = document.getElementById('textEditor');
-
-  if (e.code === 'KeyE' && (e.ctrlKey || e.metaKey)) {
-    changeToTextarea(currentEl);
+  if ((e.code === 'KeyE' || e.code === 'KeyS') && (e.ctrlKey || e.metaKey)) {
+    const currentEl = document.getElementById('textEditor');
     e.preventDefault();
-  }
 
-  if (e.code === 'KeyS' && (e.ctrlKey || e.metaKey)) {
-    changeToDiv(currentEl);
-    e.preventDefault();
+    e.code === 'KeyE' ? changeToTextarea(currentEl) : changeToDiv(currentEl);
   }
 }
 
