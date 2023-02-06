@@ -7,11 +7,20 @@
   border: 1px dotted lightblue;
 }
 
-table,
+table {
+  border-collapse: collapse;
+}
+
 th,
 td {
   border: 1px solid black;
+  padding: 4px 12px;
 }
+
 th {
   cursor: pointer;
+}
+
+.text-align-center {
+  text-align: center;
 }

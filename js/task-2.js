@@ -4,31 +4,64 @@ import data from './data.json';
 Створити HTML-сторінку з великою таблицею. При кліку на заголовок стовпця, необхідно відсортувати дані цього стовпця. Врахуй, що числові значення повинні сортуватися як числа, а не як рядки.
 */
 
-// 1. Створити таблицю за допомогою JS;
-
-// 2. Данні мають сортуватися по кліку на заголовок:
-// 2.1. Взяти для перевірки кожен елемент, окрім заголовку;
-// 2.2. Кожен елемент має перевірятися з попереднім і відповідно змінювати своє положення;
-// 2.3. Числа сортуються не як рядки;
+createTable();
 
 let asc = false;
 
 document.querySelectorAll('th').forEach((th) =>
   th.addEventListener('click', () => {
-    const table = th.closest('table');
+    const tbody = document.getElementById('tbody');
 
-    Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+    Array.from(tbody.querySelectorAll('tr'))
       .sort(
         comparer(Array.from(th.parentNode.children).indexOf(th), (asc = !asc))
       )
-      .forEach((tr) => table.appendChild(tr));
+      .forEach((tr) => tbody.appendChild(tr));
   })
 );
 
-function createTable() {}
+function createTable() {
+  let tableElement = `<table>
+      <thead><tr id="theadRow"></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>`;
+
+  const tableContainer = document.getElementById('table');
+  tableContainer.insertAdjacentHTML('afterbegin', tableElement);
+
+  const dataKeys = Object.keys(data[0]);
+  const theadRow = tableContainer.querySelector('#theadRow');
+  const tbody = tableContainer.querySelector('#tbody');
+
+  dataKeys.forEach((key) => {
+    let tableHeadCellElement = `<th ${
+      key === 'title' ? '' : "class='text-align-center'"
+    }>${convertToSentenceCase(key)}</th>`;
+    theadRow.insertAdjacentHTML('beforeend', tableHeadCellElement);
+  });
+
+  data.forEach((elem) => {
+    let tableBodyRow = `<tr>`;
+
+    for (const key of dataKeys) {
+      tableBodyRow += `<td ${
+        key === 'title' ? '' : "class='text-align-center'"
+      }>${elem[key]}</td>`;
+    }
+
+    tableBodyRow += `</tr>`;
+
+    tbody.insertAdjacentHTML('beforeend', tableBodyRow);
+  });
+}
+
+function convertToSentenceCase(str) {
+  const result = str.replace(/([A-Z])/g, ' $1');
+  return result.charAt(0).toUpperCase() + result.slice(1);
+}
 
 function getCellValue(tr, idx) {
-  tr.children[idx].innerText || tr.children[idx].textContent;
+  return tr.children[idx].innerText || tr.children[idx].textContent;
 }
 
 function comparer(idx, asc) {
