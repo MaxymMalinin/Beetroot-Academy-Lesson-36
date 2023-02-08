@@ -16,8 +16,14 @@ resizer.addEventListener('pointerdown', function (e) {
   function resize(e) {
     const newWidth = e.pageX - task3.getBoundingClientRect().left;
     const newHeight = e.pageY - task3.getBoundingClientRect().top;
+    const maxWidth =
+      task3.parentElement.getBoundingClientRect().width -
+      task3.getBoundingClientRect().left -
+      task3.parentElement.getBoundingClientRect().left;
 
-    if (newWidth > minWidth) task3.style.width = newWidth + 'px';
+    if (newWidth > minWidth && newWidth < maxWidth) {
+      task3.style.width = newWidth + 'px';
+    }
 
     if (newHeight > minHeight) task3.style.height = newHeight + 'px';
   }
