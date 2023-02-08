@@ -27,5 +27,18 @@ th {
 
 .task-3 {
   display: inline-block;
+  position: relative;
   border: 3px groove rebeccapurple;
+}
+
+.resizer {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%; /*magic to turn square into circle*/
+  background: white;
+  border: 3px solid rebeccapurple;
+  right: -5px;
+  bottom: -5px;
+  cursor: nwse-resize;
 }

@@ -2,8 +2,27 @@
 Створити HTML-сторінку з блоком тексту в рамці. Реалізувати можливість змінювати розмір блоку, якщо затиснути мишку в правому нижньому кутку і тягнути її далі.
 */
 
-// TODO:
-// 1. Знайти координати правого нижнього кута div, з класом "task-3";
-// 2. Повісити лістенер на пойнтер-даун по цьому кутку;
-// 3. Зробити, щоб div збільшувався по горизонталі та вертикалі, але не зменшувався (можна спробувати через збільшення width у стилях);
-// 4. Повісити лістенер на пойнтер-ап, щоб збільшення припинилося;
+const task3 = document.getElementById('task3');
+const resizer = task3.querySelector('#resizer');
+const minWidth = task3.getBoundingClientRect().width;
+const minHeight = task3.getBoundingClientRect().height;
+
+resizer.addEventListener('pointerdown', function (e) {
+  e.preventDefault();
+
+  window.addEventListener('pointermove', resize);
+  window.addEventListener('pointerup', stopResize);
+
+  function resize(e) {
+    const newWidth = e.pageX - task3.getBoundingClientRect().left;
+    const newHeight = e.pageY - task3.getBoundingClientRect().top;
+
+    if (newWidth > minWidth) task3.style.width = newWidth + 'px';
+
+    if (newHeight > minHeight) task3.style.height = newHeight + 'px';
+  }
+
+  function stopResize() {
+    window.removeEventListener('pointermove', resize);
+  }
+});
